@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Weather.Mob</title>
+		
+		<!--jQuery-->
+		<script type="text/javascript" src="./lib/jquery/scripts/jquery-1.8.3.min.js"></script>
+		
+		<!--jQuery UI-->
+		<script type="text/javascript" src="./lib/jquery.ui/scripts/jquery-ui-1.9.2.custom.min.js"></script>
+		<link rel="stylesheet" href="./lib/jquery.ui/styles/ui-lightness/jquery-ui-1.9.2.custom.min.css" />
+
+		<!--jQuery Mobile-->
+		<script type="text/javascript" src="./lib/jquery.mobile/scripts/jquery.mobile-1.2.0.min.js"></script>
+		<link rel="stylesheet" href="./lib/jquery.mobile/styles/jquery.mobile-1.2.0.min.css" />
+		<link rel="stylesheet" href="./lib/jquery.mobile/styles/jquery.mobile.structure-1.2.0.min.css" />
+		<link rel="stylesheet" href="./lib/jquery.mobile/styles/jquery.mobile.theme-1.2.0.min.css" />
+		
+		<!--jQuery Pretty Date-->
+		<script type="text/javascript" src="./lib/jquery.plugin.prettydate/scripts/jquery.prettydate.js" ></script>	
+
+		<!--Knockoutjs -->
+		<script type="text/javascript" src="./lib/ko/scripts/knockout-2.2.1.js" ></script>	
+
+		<!--XDate Date Manipulation-->
+		<script type="text/javascript" src="./lib/xdate/scripts/xdate.js" ></script>	
+		
+		<!--RGraph-->
+		<script type="text/javascript" src="./lib/rgraph/scripts/RGraph.common.core.js" ></script>
+		<script type="text/javascript" src="./lib/rgraph/scripts/RGraph.common.dynamic.js" ></script>
+		<script type="text/javascript" src="./lib/rgraph/scripts/RGraph.common.tooltips.js" ></script>
+		<script type="text/javascript" src="./lib/rgraph/scripts/RGraph.common.key.js" ></script>
+		<script type="text/javascript" src="./lib/rgraph/scripts/RGraph.bar.js" ></script>	    
+		<script type="text/javascript" src="./lib/rgraph/scripts/RGraph.line.js" ></script>	    
+
+		<!--Cordova-->
+		<script type="text/javascript" src="./lib/cordova/scripts/cordova-2.1.0.js"></script>
+
+		<!--Google API-->
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDIMAFhfoBgel10A-8NHAxaTvqaq1smo6k&sensor=true"></script>            
+		
+		<!--App -->    
+		<script type="text/javascript" src="./scripts/weather.js"></script>
+		<link rel="stylesheet" href="./styles/weather.css" />	
+	</head>
+    <body>
+        <div data-role="page" id="page1" data-theme="a" >
+            
+            <!-- Header-->                
+            <div data-role="header" data-position="fixed">
+                <h1>Weather Trend</h1>
+            </div>
+            
+            <!-- Content-->
+            <div data-role="content" style="padding:0px;margin:0px;padding-top:5px;">
+                <div id="divWeather" >
+                    <div id="divWeatherCurrent">
+                        <div class="header">
+							<div style="float:left;">Current</div>
+							<div style="float:right;" id="divTimeStamp" title=""></div>
+						</div>
+                        <div style="height:65px;padding:5px;">
+                            <div style="float:left;">
+                                <img id="ccSymbol" src="" data-bind="attr: {src:currentSymbol}" />
+                            </div>
+                            <div style="float:left; padding-left:5px;">
+                                <div>
+									<div id="divLocation" data-bind="text:location"></div>
+									<div id="ccDesc" data-bind="text:desc"></div>
+								</div>
+								<div>
+									<span style="vertical-align:middle;">Temp.&nbsp;&nbsp;</span><span id="ccTemp" style="vertical-align:middle;" data-bind="html: temp"></span>
+									&nbsp;&nbsp;&nbsp;<span style="vertical-align:middle;">Hum.&nbsp;&nbsp;</span><span id="ccHum" style="vertical-align:middle;" data-bind="html: humidity"></span>
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divWeatherForecast">
+                        <div class="header">Forecast</div>
+                        <div id="divWeatherFiveDay">
+                            <table border="0" style="width:100%;">
+                                <tr data-bind="foreach: forecasts">
+                                    <td class="forecast">
+                                        <span data-bind="html:dayTemp"></span><br />
+                                        <img src="" class="condition_icon" data-bind="attr: {src:daySymbol}"/><br/> 
+                                        <span data-bind="text: dayName"></span><br/>
+                                        <span data-bind="text: dayDate"></span><br/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+					<div id="divWeatherTrend">
+                        <canvas id="cvsTempGraph" >[No canvas support]</canvas>
+					</div>
+                </div>
+                <!--
+                <div id="divError">
+                    <div id="message"></div>  
+                    Retry.... 
+                </div>
+                -->
+            </div>
+
+			<!-- Settings Dialog-->  
+			<div data-role="popup" id="dialogSettings" data-theme="b" >
+				<div data-role="header" data-theme="b">
+					<h1>Settings</h1>
+				</div>
+				<div data-role="content" data-theme="b" >
+						<fieldset data-role="controlgroup" data-mini="true" >
+							<legend>Temperature unit</legend>
+								<input type="radio" name="settingTempUnit" id="settingTempUnitF" value="F" />
+								<label for="settingTempUnitF">F</label>
+
+								<input type="radio" name="settingTempUnit" id="settingTempUnitC" value="C"  />
+								<label for="settingTempUnitC">C</label>
+						</fieldset>
+					<a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="b" >Cancel</a>    
+					<a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="b" id="bSaveSettings">Save</a>  
+				</div>
+			</div>				
+			
+			
+            <!-- Footer-->                
+            <div data-role="footer" data-position="fixed">
+                <div class="ui-grid-a">
+	                <div class="ui-block-a"><a href="#dialogSettings" data-role="button" data-theme="b" data-icon="gear" data-position-to="window" data-rel="popup"  >Settings</a></div>
+	                <div class="ui-block-b"><input type="button" value="Refresh" id="bRefresh" data-role="button"  data-theme="b" data-icon="refresh"/></div>
+                </div>
+            </div>
+        </div>
+
+	<script >
+
+
+	</script>
+		
+    </body>
+</html>

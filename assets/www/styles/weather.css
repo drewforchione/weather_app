@@ -1,0 +1,79 @@
+#divWeather
+{
+    border: 0px solid red;
+	font-size:14px;
+	max-width:300px;
+	min-width:300px;
+	margin: 0 auto;
+	padding:0px;
+}
+
+.header
+{
+    height:18px;
+	padding:3px;
+    margin-top:3px;
+    margin-bottom:3px;    
+	text-align:left;
+    font-family:Arial;
+    font-size:14px;
+	/*font-weight:bold;*/
+    color:white;
+	background-color:rgb(120,120,120);
+    border-radius: 2px; 
+    -moz-border-radius: 2px; 
+    -webkit-border-radius: 2px; 
+	
+}
+
+#divLocation
+{
+    font-weight:bold;
+	font-size:14px;
+}
+#divTimeStamp
+{
+    padding-right:5px;
+}
+
+#ccTemp, #ccHum
+{
+	font-weight:normal;
+	font-size:24px;
+	color:cyan;
+}
+
+.condition_icon
+{
+    width:48px;
+    height:48px;
+}
+
+#divWeatherFiveDay
+{
+    margin-top:10px;
+	text-align:center;
+}
+
+#cvsTempGraph
+{
+	margin-top:10px;
+	background-color:rgb(235,235,235);
+	border: 0px solid rgb(220,220,220);
+    border-radius: 5px; 
+    -moz-border-radius: 5px; 
+    -webkit-border-radius: 5px; 	
+}
+
+
+#divLoading
+{
+    vertical-align:central;
+    text-align:center;
+}
+
+.forecast 
+{
+	text-align:center;
+	font-size: 11px;
+}
